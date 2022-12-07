@@ -5,9 +5,9 @@ const outputConfig = {
 };
 
 // Entry points
-// https://webpack.js.org/concepts/entry-points/ 
+// https://webpack.js.org/concepts/entry-points/
 const entryConfig = [
-    "./src/App.ts",
+    "./src/index.tsx",
     "./src/assets/stylesheets/app.scss",
 ];
 
@@ -29,6 +29,9 @@ const devServer = {
     static: {
         directory: path.join(__dirname, outputConfig.destPath),
     },
+    historyApiFallback: {
+        index: 'index.html'
+    }
     // https: true,
     // port: "8080",
     // host: "0.0.0.0",

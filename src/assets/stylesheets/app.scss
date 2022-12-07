@@ -1,11 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Ubuntu:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
 
 :root
 {
     --color-example: #fff;
 }
 
-html,body 
+html,body
 {
     font-family: "Roboto", sans-serif;
     display: flex;
@@ -17,12 +20,19 @@ html,body
     text-align: center;
     color: var(--color-example);
     margin: 0;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-#app 
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+#app
 {
     background-color: #4158D0;
-    background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+    background-image: linear-gradient(43deg, #1d2959 0%, #453167 46%, #8c7142 100%);
     color: var(--color-example);
     display: flex;
     align-items: center;
@@ -32,11 +42,11 @@ html,body
 }
 
 
-.features 
+.features
 {
     font-size: 1.7rem;
 
-    & div 
+    & div
     {
         padding: 0.5rem;
     }
