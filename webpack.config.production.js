@@ -6,7 +6,7 @@ const TerserPlugin = require("terser-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { outputConfig, copyPluginPatterns, scssConfig, entryConfig, terserPluginConfig } = require("./env.config");
 
-module.exports = (env, options) => 
+module.exports = (env, options) =>
 {
     return {
         mode: options.mode,
@@ -65,7 +65,7 @@ module.exports = (env, options) =>
         output: {
             filename: "js/[name].bundle.js",
             path: path.resolve(__dirname, outputConfig.destPath),
-            publicPath: "",
+            publicPath: "/",
         },
         optimization: {
             minimizer: [

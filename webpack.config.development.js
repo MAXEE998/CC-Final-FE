@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const { outputConfig, copyPluginPatterns, entryConfig, devServer } = require("./env.config");
 
-module.exports = (env, options) => 
+module.exports = (env, options) =>
 {
     return {
         mode: options.mode,
@@ -69,7 +69,7 @@ module.exports = (env, options) =>
         output: {
             filename: "js/[name].bundle.js",
             path: path.resolve(__dirname, outputConfig.destPath),
-            publicPath: "",
+            publicPath: "/",
         },
         plugins: [
             new HtmlWebpackPlugin({

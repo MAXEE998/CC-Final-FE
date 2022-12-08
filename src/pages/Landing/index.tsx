@@ -35,11 +35,11 @@ export default function Landing(props: Props) {
           spacing={4}
           justifyContent="flex-end"
         >
-          <Button variant="contained" sx={{padding: '11px 49px'}} component={Link} to="/signin">
+          <Button variant="contained" sx={{padding: '11px 49px'}} component={Link} to={`/${isPatient ? 'patient' : 'doctor'}/signin`}>
             Sign In
           </Button>
           <Button sx={{border: '2px dashed', borderColor: theme => theme.palette.primary.main, padding: '10px 48px'}}
-                  component={Link} to="/signup">
+                  component={Link} to={`/${isPatient ? 'patient' : 'doctor'}/signup`}>
             Sign Up
           </Button>
         </Stack>
