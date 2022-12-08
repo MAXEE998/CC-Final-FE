@@ -103,7 +103,7 @@ export default function SignIn(props: Props) {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href={`/signup${redirectTo ? `?redirect=${redirectTo}` : ''}`} variant="body2">
+                <Link href={`signup${redirectTo ? `?redirect=${redirectTo}` : ''}`} variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
