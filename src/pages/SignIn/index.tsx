@@ -69,7 +69,7 @@ export default function SignIn(props: Props) {
               required
               fullWidth
               id="email"
-              label="username"
+              label="email"
               name="email"
               autoComplete="email"
               autoFocus

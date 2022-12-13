@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import * as ReactDOMClient from 'react-dom/client';
 
 import { useMediaQuery } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -8,6 +8,9 @@ import { BrowserRouter } from 'react-router-dom';
 
 import App from './App';
 import getTheme from './theme';
+
+const container = document.getElementById('app')!;
+const root = ReactDOMClient.createRoot(container);
 
 const AppContainer = () => {
 
@@ -28,4 +31,4 @@ const AppContainer = () => {
   );
 };
 
-ReactDOM.render(<AppContainer/>, document.getElementById('app'));
+root.render(<AppContainer/>);

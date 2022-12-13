@@ -20,7 +20,7 @@ export default function Landing(props: Props) {
   <BaseContainer style={{display: 'flex', alignItems: 'center'}}>
     <div style={{flex: 1}}>
       <Box component="span" sx={{display: 'flex', p: 2, width: '100%', justifyContent: 'center'}}>
-        <Typography component="div">
+        <Typography component="div" align='center'>
           <Box sx={{fontSize: 'h3.fontSize', m: 1, fontFamily: 'Ubuntu'}}>TeleMD</Box>
           <Box sx={{fontSize: 'h5.fontSize', m: 1, fontFamily: 'Ubuntu'}}>
             For {isPatient ? 'Patient' : 'Doctor'}
