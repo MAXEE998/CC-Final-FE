@@ -34,7 +34,7 @@ export default function SignIn(props: Props) {
         username: "Hongyi"
       };
       ctx.openSnackBar?.(`Success, welcome back ${user.username}!`, "success");
-      ctx.navigate?.(redirectTo || `/dashboard/explore`);
+      ctx.navigate?.(redirectTo || `/patient/dashboard/`);
     } catch(err) {
       ctx.openSnackBar?.(`Error: ${err}`, "error");
     }

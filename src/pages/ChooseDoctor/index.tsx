@@ -6,13 +6,16 @@ import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import * as React from 'react';
 import BaseContainer from '../../components/BaseContainer';
-import DoctorTimeSlot from '../../components/DoctorTimeSlot/index.jsx';
+import DoctorTimeSlot from '../../components/DoctorTimeSlot';
+import AppContext from '../../api/AppContext';
 
 export default function ChooseDoctor() {
 
+  const ctx = React.useContext(AppContext);
   const [timeSlotChosen, setTimeSlotChosen] = useState<[string, Date]>(["", new Date()]);
   const handleSubmit = async (event: React.FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    ctx.navigate?.('/patient/chatbot');
   };
 
   const doctors = [

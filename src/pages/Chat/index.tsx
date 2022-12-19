@@ -1,8 +1,10 @@
 import { Box, Button, } from '@mui/material';
-import CssBaseline from '@mui/material/CssBaseline';
 import React from 'react';
+import BaseContainer from '../../components/BaseContainer';
 
 import { ActionRequest, ChatController, FileActionResponse, MuiChat, } from '../../components/chatUI';
+import AppContext from '../../api/AppContext';
+import { CheckBoxTwoTone } from '@mui/icons-material';
 
 const avatar_icon = 'https://media.istockphoto.com/id/1191411962/vector/cute-robot.jpg?s=612x612&w=0&k=20&c=KelCNJMam1XGwVM0HclQtHIHZxByJZOtnRjkBbHrAKw='
 export default function Chat(): React.ReactElement {
@@ -17,23 +19,24 @@ export default function Chat(): React.ReactElement {
   }, [chatCtl]);
 
   return (
-    <>
-      <CssBaseline/>
+    <BaseContainer>
         <Box
           sx={{
             display: 'flex',
-            flexDirection: 'column-reverse',
+            flexDirection: 'column',
             height: '90%',
             width: '90%',
             marginLeft: 'auto',
             marginRight: 'auto',
+            mt: 4,
+            mb: 2,
           }}
         >
           <Box sx={{ flex: '1 1 0%', minHeight: 0 }}>
             <MuiChat chatController={chatCtl}/>
           </Box>
         </Box>
-    </>
+    </BaseContainer>
   );
 }
 
@@ -160,8 +163,6 @@ async function echo(chatCtl: ChatController): Promise<void> {
     self: false,
     avatar: avatar_icon,
   });
-
-  echo(chatCtl);
 }
 
 function GoodInput({
@@ -171,23 +172,20 @@ function GoodInput({
   chatController: ChatController;
   actionRequest: ActionRequest;
 }) {
-  const chatCtl = chatController;
-
-  const setResponse = React.useCallback((): void => {
-    const res = {type: 'custom', value: 'Good!'};
-    chatCtl.setActionResponse(actionRequest, res);
-  }, [actionRequest, chatCtl]);
+  const ctx = React.useContext(AppContext);
+  
 
   return (
-    <div>
+    <Box sx={{width:"100%"}}>
       <Button
+        fullWidth
         type="button"
-        onClick={setResponse}
+        onClick={() => {ctx.navigate?.(`/patient/appointmentSummary`)}}
         variant="contained"
         color="primary"
       >
         Good!
       </Button>
-    </div>
+    </Box>
   );
 }

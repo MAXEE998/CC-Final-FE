@@ -6,11 +6,13 @@ import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import BaseContainer from '../../components/BaseContainer';
 import AppointmentInfoCard from '../../components/AppointmentInfoCard';
+import AppContext from '../../api/AppContext';
 
 export default function AppointmentSummary() {
-
+  const ctx = React.useContext(AppContext);
   const handleSubmit = async (event: React.FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    ctx.navigate?.(`/patient/dashboard`);
   };
 
   return (

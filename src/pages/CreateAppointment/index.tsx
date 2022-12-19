@@ -25,6 +25,7 @@ export default function CreateAppointment() {
       console.log(k);
       console.log(data.get(k))
     }
+    ctx.navigate?.('/patient/chooseDoctor')
     //
     // ctx.setBackDropStatus?.(true);
     // const success = () => {

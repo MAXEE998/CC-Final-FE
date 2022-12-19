@@ -53,7 +53,7 @@ export default function DoctorTimeSlot(props: Props) {
           }
         >
         </CardHeader>
-        <div style={{backgroundColor: 'rgba(211,211,211,0.27)'}}>
+        <div style={{backgroundColor: 'rgba(11,11,11)'}}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <CardContent sx={{typography: {fontSize: 12}, padding: 0}}>
               <Container>

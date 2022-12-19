@@ -34,7 +34,7 @@ const App = () => {
     logout: async (showMessage = false, backTo = '') => {
       try {
         //await signOut(); // TODO
-        navigate(`/signin${backTo ? `?redirect=${backTo}` : ''}`);
+        navigate(`/${backTo ? `?redirect=${backTo}` : ''}`);
         if (showMessage) {
           call('openSnackBar', 'Success, you are logged out!');
         }

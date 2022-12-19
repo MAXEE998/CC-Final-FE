@@ -10,6 +10,7 @@ import CreateAppointment from './pages/CreateAppointment';
 import Chat from './pages/Chat';
 import ChooseDoctor from './pages/ChooseDoctor';
 import AppointmentSummary from './pages/AppointmentSummary';
+import PatientDashboard from './pages/PatientDashboard';
 
 
 const routes = [
@@ -21,6 +22,7 @@ const routes = [
   <Route path='/patient/chatbot' element={<Chat />} />,
   <Route path='/patient/appointmentSummary' element={<AppointmentSummary />} />,
   <Route path='/patient/chooseDoctor' element={<ChooseDoctor />} />,
+  <Route path='/patient/dashboard/*' element={<PatientDashboard/>} />,
   <Route path='/doctor' element={<Landing isPatient={false}/>} />,
   <Route path='/doctor/signin' element={<SignIn isPatient={false}/>} />,
   <Route path='/doctor/signup' element={<SignUp isPatient={false}/>} />,

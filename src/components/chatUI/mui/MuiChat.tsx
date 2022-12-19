@@ -96,6 +96,13 @@ export function MuiChat({
           '& > *': {
             maxWidth: '100%',
           },
+          "&::-webkit-scrollbar": {
+            width: 0
+          },
+          "&::-webkit-scrollbar-track": {
+          },
+          "&::-webkit-scrollbar-thumb": {
+          }
         }}
         ref={msgRef}
       >
