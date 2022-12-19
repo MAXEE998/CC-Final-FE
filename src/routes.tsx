@@ -9,6 +9,7 @@ import SignUp from './pages/SignUp';
 import CreateAppointment from './pages/CreateAppointment';
 import Chat from './pages/Chat';
 import ChooseDoctor from './pages/ChooseDoctor';
+import AppointmentSummary from './pages/AppointmentSummary';
 
 
 const routes = [
@@ -18,6 +19,7 @@ const routes = [
   <Route path='/patient/signup' element={<SignUp isPatient={true}/>} />,
   <Route path='/patient/createAppointment' element={<CreateAppointment />} />,
   <Route path='/patient/chatbot' element={<Chat />} />,
+  <Route path='/patient/appointmentSummary' element={<AppointmentSummary />} />,
   <Route path='/patient/chooseDoctor' element={<ChooseDoctor />} />,
   <Route path='/doctor' element={<Landing isPatient={false}/>} />,
   <Route path='/doctor/signin' element={<SignIn isPatient={false}/>} />,

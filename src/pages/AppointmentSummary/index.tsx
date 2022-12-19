@@ -3,32 +3,15 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { useState } from 'react';
 import * as React from 'react';
 import BaseContainer from '../../components/BaseContainer';
-import DoctorTimeSlot from '../../components/DoctorTimeSlot/index.jsx';
+import AppointmentInfoCard from '../../components/AppointmentInfoCard';
 
-export default function ChooseDoctor() {
+export default function AppointmentSummary() {
 
-  const [timeSlotChosen, setTimeSlotChosen] = useState<[string, Date]>(["", new Date()]);
   const handleSubmit = async (event: React.FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
-
-  const doctors = [
-    {
-      doctorName: "Doctor A",
-      timeSlots: [new Date(2023, 2, 23), new Date(2023, 2, 24)],
-      timeSlotChosen: timeSlotChosen,
-      setTimeSlotChosen: setTimeSlotChosen,
-    },
-    {
-      doctorName: "Doctor X",
-      timeSlots: [new Date(2023, 2, 23), new Date(2023, 2, 24)],
-      timeSlotChosen: timeSlotChosen,
-      setTimeSlotChosen: setTimeSlotChosen,
-    }
-  ]
 
   return (
     <BaseContainer
@@ -51,8 +34,8 @@ export default function ChooseDoctor() {
             alignItems: 'center',
           }}
         >
-          <Typography component="h1" variant="h6" fontSize="16px" sx={{ p:1, width: "100%"}}>
-            Choose your appointment:
+          <Typography component="h1" fontSize="16x" sx={{ p:1, width: "100%"}}>
+            Appointment Summary:
           </Typography>
           <Box
             sx={{
@@ -62,16 +45,19 @@ export default function ChooseDoctor() {
               alignItems: 'center',
             }}
           >
-            {doctors.map((doc) => (
-              <DoctorTimeSlot {...doc} />
-            ))}
+            <AppointmentInfoCard
+              doctorName={"Jane Master"}
+              time={new Date()}
+              mainComplaint="Cold"
+              zoomLink="https://nyu.zoom.us/u/aBZ7UmW70"
+              collapsable={false}
+            />
             <Button
               onClick={handleSubmit}
               variant="contained"
-              disabled={!timeSlotChosen[0]}
               sx={{ mt: 3, mb: 2, width:"80%" }}
             >
-              Confirm
+              Home
             </Button>
           </Box>
         </Box>

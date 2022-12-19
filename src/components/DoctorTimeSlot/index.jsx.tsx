@@ -27,7 +27,7 @@ export default function DoctorTimeSlot(props: Props) {
         sx={{
           minWidth: 300,
           border: '1px solid rgba(211,211,211,0.6)',
-          marginTop: 2,
+          marginTop: 1,
           width: '90%',
           borderRadius: '16px'
         }}>
@@ -35,7 +35,7 @@ export default function DoctorTimeSlot(props: Props) {
           title={doctorName}
           titleTypographyProps={{
             component: 'h2',
-            variant: 'h6'
+            fontSize: '14px',
           }}
           action={
             <IconButton
@@ -56,7 +56,6 @@ export default function DoctorTimeSlot(props: Props) {
                   {timeSlots.map((timeSlot) => (
                     <>
                       <ListItem divider disablePadding sx={{m: 1}}>
-                        <ListItemButton>
                           <Radio
                             checked={doctorName === timeSlotChosen[0] && timeSlot.getTime() == timeSlotChosen[1].getTime()}
                             onChange={() =>
@@ -66,8 +65,7 @@ export default function DoctorTimeSlot(props: Props) {
                             name="radio-buttons"
                             inputProps={{'aria-label': timeSlot.toString()}}
                           />
-                        </ListItemButton>
-                        <ListItemText primary={timeSlot.toString()} />
+                        <ListItemText primary={timeSlot.toLocaleDateString() + ' ' + timeSlot.toLocaleTimeString()} />
                       </ListItem>
                     </>
                   ))}

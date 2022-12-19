@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import BaseContainer from '../../components/BaseContainer';
 import AppContext from '../../api/AppContext';
-import { InputLabel, Select, MenuItem, FormControl, Button } from '@mui/material';
+import { InputLabel, Select, MenuItem, FormControl, Button, makeStyles } from '@mui/material';
 import FileUpload from 'react-material-file-upload';
 import PermDeviceInformationIcon from '@mui/icons-material/PermDeviceInformation';
 
@@ -15,6 +15,7 @@ import PermDeviceInformationIcon from '@mui/icons-material/PermDeviceInformation
 export default function CreateAppointment() {
 
   const [files, setFiles] = React.useState<File[]>([]);
+
   const redirectTo = new URLSearchParams(window.location.search).get('redirect') || '';
   const ctx = React.useContext(AppContext);
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -60,8 +61,7 @@ export default function CreateAppointment() {
             alignItems: 'center',
           }}
         >
-          <Typography component="h1" variant="h6" fontSize="14px" sx={{ p:1, width: "100%"}}>
-            <PermDeviceInformationIcon /> &nbsp;
+          <Typography component="h1" variant="h6" fontSize="16px" sx={{ p:1, width: "100%"}}>
             Select your main reason for seeking care today and add any additional notes
           </Typography>
           <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2}}>
