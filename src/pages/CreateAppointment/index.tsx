@@ -9,6 +9,8 @@ import BaseContainer from '../../components/BaseContainer';
 import AppContext from '../../api/AppContext';
 import { InputLabel, Select, MenuItem, FormControl, Button } from '@mui/material';
 import FileUpload from 'react-material-file-upload';
+import PermDeviceInformationIcon from '@mui/icons-material/PermDeviceInformation';
+
 
 export default function CreateAppointment() {
 
@@ -43,10 +45,11 @@ export default function CreateAppointment() {
 
   return (
     <BaseContainer>
-      <Container component="main" maxWidth="xs"  sx={{
+      <Container component="main" maxWidth="xs"   sx={{
         height: '100%',
         display: 'flex',
         alignItems: 'center',
+        width: "90%",
       }}>
         <CssBaseline />
         <Box
@@ -57,10 +60,11 @@ export default function CreateAppointment() {
             alignItems: 'center',
           }}
         >
-          <Typography component="h1" variant="h5">
-            Select your main reason for seeking care today, add any additional notes
+          <Typography component="h1" variant="h6" fontSize="14px" sx={{ p:1, width: "100%"}}>
+            <PermDeviceInformationIcon /> &nbsp;
+            Select your main reason for seeking care today and add any additional notes
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3,  width: 400}}>
+          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2}}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <FormControl required fullWidth id={"mc"}>
