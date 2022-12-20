@@ -11,17 +11,20 @@ export default function Appointments() {
 
     return (<>
         <Title>Your Appointments </Title>
-        <Box paddingX={3}>
-                <Container sx={{m:2, alignItems: 'center'}}>
-                    <AppointmentInfoCard
-                        doctorName={"Jane Master"}
-                        time={new Date()}
-                        mainComplaint="Cold"
-                        zoomLink="https://nyu.zoom.us/u/aBZ7UmW70"
-                        collapsable={false}
-                    />
-                </Container>
-
+        <Box sx={{
+            m:2, 
+            alignItems: 'center',
+            justifyContent: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+        }}>
+            <AppointmentInfoCard
+                doctorName={"Jane Master"}
+                time={new Date()}
+                mainComplaint="Cold"
+                zoomLink="https://nyu.zoom.us/u/aBZ7UmW70"
+                collapsable={false}
+            />
         </Box>
     </>);
 }

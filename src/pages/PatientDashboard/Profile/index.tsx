@@ -19,7 +19,6 @@ export default function Profile() {
     const [gender, setGender] = React.useState('female');
     const [email, setEmail] = React.useState('fw@gmail.com');
     const [phone, setPhone] = React.useState('9175551511');
-    const [rating, setRating] = React.useState(5);
     const [dob, setDOB] = React.useState('1998-08-08'); 
 
     return (<>

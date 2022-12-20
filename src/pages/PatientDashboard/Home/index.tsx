@@ -11,20 +11,23 @@ export default function Home() {
 
     return (<>
         <Title>Hi Testuser, welcome to TeleMD!</Title>
-        <Box paddingX={3}>
-                <Container sx={{m:2, alignItems: 'center'}}>
-                    <Typography component="h1" variant="h6" fontSize="16px" sx={{ p:1, width: "100%"}}>
-                        Upcoming Appointment
-                    </Typography>
-                    <AppointmentInfoCard
-                        doctorName={"Jane Master"}
-                        time={new Date()}
-                        mainComplaint="Cold"
-                        zoomLink="https://nyu.zoom.us/u/aBZ7UmW70"
-                        collapsable={false}
-                    />
-                </Container>
-
+        <Box sx={{
+            m:2, 
+            alignItems: 'center',
+            justifyContent: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+        }}>
+            <Typography component="h1" variant="h6" fontSize="16px" sx={{ p:1, width: "100%"}}>
+                Upcoming Appointment
+            </Typography>
+            <AppointmentInfoCard
+                doctorName={"Jane Master"}
+                time={new Date()}
+                mainComplaint="Cold"
+                zoomLink="https://nyu.zoom.us/u/aBZ7UmW70"
+                collapsable={false}
+            />
         </Box>
     </>);
 }
