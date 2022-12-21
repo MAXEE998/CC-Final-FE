@@ -75,8 +75,7 @@ export default function CreateAppointment() {
                     label="Main Complaint"
                     name="mc"
                   >
-                    <MenuItem value={"Cold"}>Cold</MenuItem>
-                    <MenuItem value={"Covid-19"}>Covid-19</MenuItem>
+                    <MenuItem value={"flu"}>Flu</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>

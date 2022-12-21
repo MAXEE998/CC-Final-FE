@@ -9,7 +9,6 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import Collapse from '@mui/material/Collapse';
-import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
 import React, { useState } from 'react';
 
@@ -21,7 +20,7 @@ interface Props {
   collapsable: boolean;
 }
 
-export default function DoctorTimeSlot(props: Props) {
+export default function AppointmentInfoCard(props: Props) {
 
   const {doctorName, time, mainComplaint, zoomLink, collapsable} = props;
   const [open, setOpen] = useState(!collapsable);
@@ -55,47 +54,45 @@ export default function DoctorTimeSlot(props: Props) {
         </CardHeader>
         <div style={{backgroundColor: 'rgba(11,11,11)'}}>
           <Collapse in={open} timeout="auto" unmountOnExit>
-            <CardContent sx={{typography: {fontSize: 12}, padding: 0}}>
-              <Container>
-                <List>
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar>
-                        <CalendarMonthIcon/>
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary={time.toLocaleDateString()} secondary="Date"/>
-                  </ListItem>
-                  <Divider variant="inset" component="li"/>
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar>
-                        <AccessTimeIcon/>
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary={time.toLocaleTimeString()} secondary="Time"/>
-                  </ListItem>
-                  <Divider variant="inset" component="li"/>
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar>
-                        <LinkIcon/>
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary={<a href={zoomLink}>Click here</a>} secondary="Zoom Link"/>
-                  </ListItem>
-                  <Divider variant="inset" component="li"/>
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar>
-                        <MedicalInformationIcon/>
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary={mainComplaint} secondary="Main Complaint"/>
-                  </ListItem>
-                  <Divider variant="inset" component="li"/>
-                </List>
-              </Container>
+            <CardContent sx={{typography: {fontSize: 12}, mr: 2, mt: 0}}>
+              <List>
+                <ListItem>
+                  <ListItemAvatar>
+                    <Avatar>
+                      <CalendarMonthIcon/>
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText primary={time.toLocaleDateString()} secondary="Date"/>
+                </ListItem>
+                <Divider variant="inset" component="li"/>
+                <ListItem>
+                  <ListItemAvatar>
+                    <Avatar>
+                      <AccessTimeIcon/>
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText primary={time.toLocaleTimeString()} secondary="Time"/>
+                </ListItem>
+                <Divider variant="inset" component="li"/>
+                <ListItem>
+                  <ListItemAvatar>
+                    <Avatar>
+                      <LinkIcon/>
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText primary={<a href={zoomLink}>Click here</a>} secondary="Zoom Link"/>
+                </ListItem>
+                <Divider variant="inset" component="li"/>
+                <ListItem>
+                  <ListItemAvatar>
+                    <Avatar>
+                      <MedicalInformationIcon/>
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText primary={mainComplaint} secondary="Main Complaint"/>
+                </ListItem>
+                <Divider variant="inset" component="li"/>
+              </List>
             </CardContent>
           </Collapse>
         </div>

@@ -11,6 +11,7 @@ import Chat from './pages/Chat';
 import ChooseDoctor from './pages/ChooseDoctor';
 import AppointmentSummary from './pages/AppointmentSummary';
 import PatientDashboard from './pages/PatientDashboard';
+import DoctorDashboard from './pages/DoctorDashboard';
 
 
 const routes = [
@@ -26,6 +27,7 @@ const routes = [
   <Route path='/doctor' element={<Landing isPatient={false}/>} />,
   <Route path='/doctor/signin' element={<SignIn isPatient={false}/>} />,
   <Route path='/doctor/signup' element={<SignUp isPatient={false}/>} />,
+  <Route path='/doctor/dashboard/*' element={<DoctorDashboard/>} />,
   <Route path='/*' element={<Error />} />,
 ]
 
