@@ -3,7 +3,7 @@ import * as React from 'react';
 
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation, matchRoutes, Route, Routes, Link } from 'react-router-dom';
-import { getDoctorProfile, getPatientProfile } from '../../api/apiGateway';
+import {getDoctorAppointments, getDoctorProfile, getPatientProfile} from '../../api/apiGateway';
 import AppContext from '../../api/AppContext';
 
 import Navigator from '../../components/BottomNavigator';
@@ -26,6 +26,19 @@ export default function DoctorDashboard() {
     const user = !!userStr ? JSON.parse(userStr) : null;
     const isProfileAvailable = !!user.dob;
     const [name, setName] = useState(isProfileAvailable ? user.fname + ' ' + user.lname: "");
+    const [appointment, setAppointments] = useState([]);
+
+    useEffect( () => {
+        // if (!user.dob) {
+        ctx.setBackDropStatus?.(true);
+        getDoctorAppointments(ctx.user.email).then(
+            (response: AxiosResponse) => {
+                const data = response.data
+                console.log(data)
+                ctx.setBackDropStatus?.(false);
+            })
+        // }
+    }, [])
 
     useEffect(() => {
         if (urlTag !== tag) {

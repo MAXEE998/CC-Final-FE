@@ -29,6 +29,7 @@ export default function Appointments() {
                 symptomsLasted="3 days"
                 insurance="covered"
                 relevantDocuments={["A", "B", "C"]}
+                summary={"onetuhonetuhnoetuh"}
                 status={AppointmentStatus.Pending}
             />
         </Box>

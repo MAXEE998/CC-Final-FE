@@ -4,6 +4,9 @@ import * as React from 'react';
 import Title from '../../../components/Title';
 import AppContext from '../../../api/AppContext';
 import { DoctorAppointmentInfoCard, AppointmentStatus } from '../../..//components/DoctorAppointmentInfoCard';
+import {useEffect, useState} from "react";
+import {getDoctorAppointments} from "../../../api/apiGateway";
+import {AxiosResponse} from "axios";
 
 interface Props {
     name: string
@@ -36,6 +39,7 @@ export default function Home(props: Props) {
                 symptomsLasted="3 days"
                 insurance="covered"
                 relevantDocuments={["A", "B", "C"]}
+                summary={"aoeuthaoenuhoae"}
                 status={AppointmentStatus.Confirmed}
             />
         </Box>

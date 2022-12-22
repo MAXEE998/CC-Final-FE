@@ -66,6 +66,12 @@ export const getDoctorProfile: any = (email: string) => {
   return fetchURL(url);
 };
 
+export const getDoctorAppointments: any = (email: string) => {
+  const url =
+      `/doctor/appointment?id=${email}`;
+  return fetchURL(url);
+};
+
 export const putFile: any = (file: File, data: any, email: string): any => {
   const url =
     `/files/${file.name}`;

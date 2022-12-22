@@ -30,7 +30,7 @@ export default function CreateAppointment() {
       let fileData = await toBase64(each)
       await putFile(each, fileData, ctx.user.email);
     }
-    //ctx.navigate?.('/patient/chooseDoctor')
+    ctx.navigate?.('/patient/chooseDoctor')
     //
     // ctx.setBackDropStatus?.(true);
     // const success = () => {

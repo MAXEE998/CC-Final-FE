@@ -43,113 +43,100 @@ export default function Chat(): React.ReactElement {
 async function echo(chatCtl: ChatController): Promise<void> {
   await chatCtl.addMessage({
     type: 'text',
-    content: `Please enter something.`,
+    content: `Hello, I'm here to collect more information about your cold.`,
     self: false,
     avatar: avatar_icon,
   });
-  const text = await chatCtl.setActionRequest({
-    type: 'text',
-    placeholder: 'Please enter something',
-  });
+  // symptom
   await chatCtl.addMessage({
     type: 'text',
-    content: `You have entered:\n${text.value}`,
+    content: `Do you show any of the following symptoms?`,
     self: false,
     avatar: avatar_icon,
   });
-
-  await chatCtl.addMessage({
-    type: 'text',
-    content: `What is your gender?`,
-    self: false,
-    avatar: avatar_icon,
-  });
-  const sel = await chatCtl.setActionRequest({
+  await chatCtl.setActionRequest({
     type: 'select',
     options: [
       {
-        value: 'man',
-        text: 'Man',
+        value: 'cough',
+        text: 'Cough',
       },
       {
-        value: 'woman',
-        text: 'Woman',
+        value: 'ache',
+        text: 'Body Ache',
       },
       {
-        value: 'other',
-        text: 'Other',
+        value: 'fever',
+        text: 'Fever',
+      },
+      {
+        value: 'runny nose',
+        text: 'Runny Nose',
+      },
+      {
+        value: 'headache',
+        text: 'Headache',
       },
     ],
   });
+
+  // symptom lasted
   await chatCtl.addMessage({
     type: 'text',
-    content: `You have selected ${sel.value}.`,
+    content: `How long does the symptoms last?`,
     self: false,
     avatar: avatar_icon,
+  });
+  await chatCtl.setActionRequest({
+    type: 'text',
+    placeholder: '',
   });
 
+  // insurance
   await chatCtl.addMessage({
     type: 'text',
-    content: `What is your favorite fruit?`,
+    content: `Do you have insurance?`,
     self: false,
     avatar: avatar_icon,
   });
-  const mulSel = await chatCtl.setActionRequest({
-    type: 'multi-select',
+  await chatCtl.setActionRequest({
+    type: 'select',
     options: [
       {
-        value: 'apple',
-        text: 'Apple',
+        value: 'yes',
+        text: 'Yes',
       },
       {
-        value: 'orange',
-        text: 'Orange',
-      },
-      {
-        value: 'none',
-        text: 'None',
+        value: 'no',
+        text: 'No',
       },
     ],
   });
+
+  // Flu and Covid-19 series
   await chatCtl.addMessage({
     type: 'text',
-    content: `You have selected '${mulSel.value}'.`,
+    content: `Have you got the Flu and Covid-19 series vaccines?`,
     self: false,
     avatar: avatar_icon,
+  });
+  await chatCtl.setActionRequest({
+    type: 'select',
+    options: [
+      {
+        value: 'yes',
+        text: 'Yes',
+      },
+      {
+        value: 'no',
+        text: 'No',
+      },
+    ],
   });
 
   await chatCtl.addMessage({
     type: 'text',
-    content: `What is your favorite picture?`,
-    self: false,
-    avatar: avatar_icon,
-  });
-  const file = (await chatCtl.setActionRequest({
-    type: 'file',
-    accept: 'image/*',
-    multiple: true,
-  })) as FileActionResponse;
-  await chatCtl.addMessage({
-    type: 'jsx',
-    content: (
-      <div>
-        {file.files.map((f) => (
-          <img
-            key={file.files.indexOf(f)}
-            src={window.URL.createObjectURL(f)}
-            alt="File"
-            style={{width: '100%', height: 'auto'}}
-          />
-        ))}
-      </div>
-    ),
-    self: false,
-    avatar: avatar_icon,
-  });
-
-  await chatCtl.addMessage({
-    type: 'text',
-    content: `Please press the button.`,
+    content: `Thank you for your response, you may continue now.`,
     self: false,
     avatar: avatar_icon,
   });

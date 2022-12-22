@@ -13,6 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import VaccinesIcon from '@mui/icons-material/Vaccines';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import CoronavirusIcon from '@mui/icons-material/Coronavirus';
+import SummarizeIcon from '@mui/icons-material/Summarize';
 import HourglassBottomIcon from '@mui/icons-material/HourglassBottom';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
@@ -37,6 +38,7 @@ interface Props {
   symptomsLasted: string;
   insurance: string;
   relevantDocuments: string[];
+  summary: string;
   status: AppointmentStatus;
 }
 
@@ -45,7 +47,7 @@ export default function DoctorAppointmentInfoCard(props: Props) {
   const {
     doctorName, time, mainComplaint,
     zoomLink, collapsable,
-    vaccinationStatus, insurance, relevantDocuments,
+    vaccinationStatus, insurance, relevantDocuments, summary,
     symptoms, symptomsLasted, status,
    } = props;
   const [open, setOpen] = useState(!collapsable);
@@ -180,6 +182,15 @@ export default function DoctorAppointmentInfoCard(props: Props) {
                     </Avatar>
                   </ListItemAvatar>
                   <ListItemText primary={symptomsLasted} secondary="Symptoms Lasted"/>
+                </ListItem>
+                <Divider variant="inset" component="li"/>
+                <ListItem>
+                  <ListItemAvatar>
+                    <Avatar>
+                      <SummarizeIcon/>
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText primary={summary}/>
                 </ListItem>
                 <Divider variant="inset" component="li"/>
                   <ListItemButton onClick={() => {setFileOpen(!fileOpen)}}>
