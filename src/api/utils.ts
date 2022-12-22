@@ -34,3 +34,12 @@ export const EventCounter = () => {
     dec: (num = 1) => { counter -= num; if (counter < 0) counter = 0; return counter; },
   }
 }
+
+export const toBase64 = (file: File) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    // @ts-ignore
+    reader.onload = () => resolve(reader.result.split(',')[1]);
+    reader.onerror = (error) => reject(error);
+  });

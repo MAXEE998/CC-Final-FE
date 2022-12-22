@@ -25,27 +25,30 @@ export default function Profile() {
     const [email, setEmail] = useState(userEmail);
     const [phone, setPhone] = useState(isProfileAvailable ? user.phonenumber: "");
     const [dob, setDOB] = useState(isProfileAvailable ? user.dob: "");
+    const [docs, setDocs] = useState<string[]>(isProfileAvailable ? user.docs: []);
 
     useEffect( () => {
-        if (!user.dob) {
+        // if (!user.dob) {
             ctx.setBackDropStatus?.(true);
             getPatientProfile(email).then(
               (response: AxiosResponse) => {
-                  console.log(response.data)
-                  const data = response.data
-                  user.dob = data.dob
-                  user.gender = data.gender
-                  user.phonenumber = data.phonenumber
-                  user.lname = data.lname
-                  user.fname = data.fname
-                  localStorage.setItem("tmd-user", JSON.stringify(user));
-                  setName(data.fname + ' ' + data.lname);
-                  setGender(data.gender);
-                  setPhone(data.phonenumber);
-                  setDOB(data.dob);
-                  ctx.setBackDropStatus?.(false);
+                console.log(response.data)
+                const data = response.data
+                user.dob = data.dob
+                user.gender = data.gender
+                user.phonenumber = data.phonenumber
+                user.lname = data.lname
+                user.fname = data.fname
+                user.docs = !!data?.docs ? data.docs : []
+                localStorage.setItem("tmd-user", JSON.stringify(user));
+                setName(data.fname + ' ' + data.lname);
+                setGender(data.gender);
+                setPhone(data.phonenumber);
+                setDOB(data.dob);
+                setDocs(user.docs);
+                ctx.setBackDropStatus?.(false);
               })
-        }
+        // }
       }, [])
 
 
@@ -73,23 +76,24 @@ export default function Profile() {
                 <Divider sx={{ marginY: 3}} />
                 <h3 style={{ margin: 0, marginBottom: 12 }}>Your medical files:</h3>
                 <List>
+                  { docs.map(doc => ( !doc ? null :
                     <ListItem
-                        secondaryAction={
-                            <IconButton edge="end" aria-label="delete">
-                                <DeleteIcon />
-                            </IconButton>
-                        }
+                      secondaryAction={
+                        <IconButton edge="end" aria-label="delete">
+                          <DeleteIcon />
+                        </IconButton>
+                      }
                     >
-                        <ListItemAvatar>
-                            <Avatar>
-                                <InsertDriveFileOutlinedIcon/>
-                            </Avatar>
-                        </ListItemAvatar>
-                        <ListItemText
-                            primary={<a href="https://s3.console.aws.amazon.com/s3/object/files-telemedicine?region=us-east-1&prefix=HW2-Fall2022.pdf">HW2-Fall2022.pdf</a> }
-                            secondary="2022-12-19 14:30"
-                        />
+                      <ListItemAvatar>
+                        <Avatar>
+                          <InsertDriveFileOutlinedIcon/>
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={<a href={`https://files-telemedicine.s3.amazonaws.com/${doc}`}>{doc}</a> }
+                      />
                     </ListItem>
+                  ))}
                 </List>
             </Paper>
 

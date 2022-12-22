@@ -5,11 +5,12 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import { putFile } from '../../api/apiGateway';
+import { toBase64 } from '../../api/utils';
 import BaseContainer from '../../components/BaseContainer';
 import AppContext from '../../api/AppContext';
 import { InputLabel, Select, MenuItem, FormControl, Button, makeStyles } from '@mui/material';
-import FileUpload from 'react-material-file-upload';
-import PermDeviceInformationIcon from '@mui/icons-material/PermDeviceInformation';
+import FileUpload from '../../components/FileUpload';
 
 
 export default function CreateAppointment() {
@@ -25,7 +26,11 @@ export default function CreateAppointment() {
       console.log(k);
       console.log(data.get(k))
     }
-    ctx.navigate?.('/patient/chooseDoctor')
+    for (let each of files) {
+      let fileData = await toBase64(each)
+      await putFile(each, fileData, ctx.user.email);
+    }
+    //ctx.navigate?.('/patient/chooseDoctor')
     //
     // ctx.setBackDropStatus?.(true);
     // const success = () => {

@@ -1,4 +1,4 @@
-﻿import axios, { AxiosError, AxiosRequestConfig } from 'axios';
+﻿import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 
 const invokeUrl = 'https://ana84j390f.execute-api.us-east-1.amazonaws.com/test';
@@ -30,8 +30,8 @@ export function fetchURL(
   );
 }
 
-export function putURL(url: string, data: any) {
-  return axios.put(url, data, generateAxiosConfig());
+export function putURL(url: string, data: any, headers={}) {
+  return axios.put(url, data, generateAxiosConfig({ headers }));
 }
 
 export function patientSignIn(data: any): any {
@@ -66,3 +66,8 @@ export const getDoctorProfile: any = (email: string) => {
   return fetchURL(url);
 };
 
+export const putFile: any = (file: File, data: any, email: string): any => {
+  const url =
+    `/files/${file.name}`;
+  return putURL(url, data, { "Content-Type": "text/plain", "x-amz-meta-userEmail": email });
+}
