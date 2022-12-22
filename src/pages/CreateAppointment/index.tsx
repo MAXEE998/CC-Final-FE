@@ -5,13 +5,13 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { putFile } from '../../api/apiGateway';
+import { putFile, createAppointment } from '../../api/apiGateway';
 import { toBase64 } from '../../api/utils';
 import BaseContainer from '../../components/BaseContainer';
 import AppContext from '../../api/AppContext';
 import { InputLabel, Select, MenuItem, FormControl, Button, makeStyles } from '@mui/material';
 import FileUpload from '../../components/FileUpload';
-
+import { v4 as uuidv4 } from 'uuid';
 
 export default function CreateAppointment() {
 
@@ -21,33 +21,37 @@ export default function CreateAppointment() {
   const ctx = React.useContext(AppContext);
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    ctx.setBackDropStatus?.(true);
     const data = new FormData(event.currentTarget);
-    for (let k of data.keys()) {
-      console.log(k);
-      console.log(data.get(k))
+
+    // create appointment
+    const form = {
+      AppointmentNumber: uuidv4(),
+      patient_email: ctx.user.email,
+      link: "https://nyu.zoom.us/j/7281807429?pwd=NTR4TXpXYXJ6K3ozeHNoLzljZitrUT09",
+      details: data.get("note")
     }
-    for (let each of files) {
-      let fileData = await toBase64(each)
-      await putFile(each, fileData, ctx.user.email);
+    try {
+      let resp = await createAppointment(form);
+      sessionStorage.setItem("AppointmentNumber", form.AppointmentNumber);
+      if (resp.status == 200) {
+        // file upload
+        for (let each of files) {
+          let fileData = await toBase64(each)
+          resp = await putFile(each, fileData, ctx.user.email);
+          console.log(resp.status)
+          setFiles([]);
+        }
+        ctx.setBackDropStatus?.(false);
+        ctx.navigate?.('/patient/chooseDoctor')
+      } else {
+        ctx.setBackDropStatus?.(false);
+        ctx.openSnackBar?.("Error: something went wrong...", "error")
+      }
+    } catch(err) {
+      ctx.openSnackBar?.(`Error: ${err}`, "error");
     }
-    ctx.navigate?.('/patient/chooseDoctor')
-    //
-    // ctx.setBackDropStatus?.(true);
-    // const success = () => {
-    //   ctx.openSnackBar?.(`Success, please use your username and password to login!`, "success");
-    //   ctx.navigate?.(`/signin${redirectTo ? `?redirect=${redirectTo}` : ''}`);
-    // }
-    // try {
-    //   success();
-    // } catch(err) {
-    //   // TODO: backend fallback
-    //   if (`${err}`.includes('Unrecognizable lambda output')) {
-    //     success();
-    //   } else {
-    //     ctx.openSnackBar?.(`Error: ${err}`, "error");
-    //   }
-    // }
-    // ctx.setBackDropStatus?.(false);
+    ctx.setBackDropStatus?.(false);
   };
 
   return (

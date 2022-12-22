@@ -12,6 +12,7 @@ import React, { Dispatch, SetStateAction, useState } from 'react';
 
 interface Props {
   doctorName: string;
+  doctorID: string;
   timeSlots: Date[];
   timeSlotChosen: [string, Date];
   setTimeSlotChosen: Dispatch<SetStateAction<[string, Date]>>
@@ -19,7 +20,7 @@ interface Props {
 
 export default function DoctorTimeSlot(props: Props) {
   const [open, setOpen] = useState(false);
-  const {doctorName, timeSlots, timeSlotChosen, setTimeSlotChosen} = props;
+  const {doctorName, timeSlots, timeSlotChosen, setTimeSlotChosen, doctorID} = props;
 
   return (
     <>
@@ -57,10 +58,10 @@ export default function DoctorTimeSlot(props: Props) {
                     <>
                       <ListItem divider disablePadding sx={{m: 1}}>
                           <Radio
-                            checked={doctorName === timeSlotChosen[0] && timeSlot.getTime() == timeSlotChosen[1].getTime()}
-                            onChange={() =>
-                              setTimeSlotChosen([doctorName, timeSlot])
-                            }
+                            checked={doctorID === timeSlotChosen[0] && timeSlot.getTime() == timeSlotChosen[1].getTime()}
+                            onChange={() => {
+                                setTimeSlotChosen([doctorID, timeSlot])
+                            }}
                             value={timeSlot}
                             name="radio-buttons"
                             inputProps={{'aria-label': timeSlot.toString()}}

@@ -11,6 +11,7 @@ import CardHeader from '@mui/material/CardHeader';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import React, { useState } from 'react';
+import {isValidDate} from "../../api/utils";
 
 interface Props {
   doctorName: string;
@@ -22,7 +23,10 @@ interface Props {
 
 export default function AppointmentInfoCard(props: Props) {
 
-  const {doctorName, time, mainComplaint, zoomLink, collapsable} = props;
+  let {doctorName, time, mainComplaint, zoomLink, collapsable} = props;
+  if (!isValidDate(time)) {
+    time = new Date(2023, 2, 12, 12);
+  }
   const [open, setOpen] = useState(!collapsable);
 
   return (

@@ -3,35 +3,57 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import * as React from 'react';
 import BaseContainer from '../../components/BaseContainer';
 import DoctorTimeSlot from '../../components/DoctorTimeSlot';
 import AppContext from '../../api/AppContext';
+import {getDoctors, updateAppointment} from "../../api/apiGateway";
+import {AxiosResponse} from "axios";
+import {getRandomArbitrary} from "../../api/utils";
 
 export default function ChooseDoctor() {
 
   const ctx = React.useContext(AppContext);
   const [timeSlotChosen, setTimeSlotChosen] = useState<[string, Date]>(["", new Date()]);
+  const [doctors, setDoctors] = useState<any[]>([])
+
+  const processDoctor = (raws: { map: () => any; }) => {
+    // @ts-ignore
+    return raws.map((doc) => {
+      return {
+      doctorName : doc.fname + ' ' + doc.lname,
+      doctorID: doc.DoctorID,
+      timeSlots: [new Date(2023, 2, 12, 12), new Date(2023, 2, 13, 12)],
+    }})
+  }
+
+  useEffect(() => {
+    ctx.setBackDropStatus?.(true);
+    getDoctors().then((resp: AxiosResponse) => {
+      const data = resp.data
+      console.log(data)
+      setDoctors(processDoctor(data))
+      ctx.setBackDropStatus?.(false);
+    })
+  }, [])
   const handleSubmit = async (event: React.FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    ctx.navigate?.('/patient/chatbot');
-  };
-
-  const doctors = [
-    {
-      doctorName: "Doctor A",
-      timeSlots: [new Date(2023, 2, 23), new Date(2023, 2, 24)],
-      timeSlotChosen: timeSlotChosen,
-      setTimeSlotChosen: setTimeSlotChosen,
-    },
-    {
-      doctorName: "Doctor X",
-      timeSlots: [new Date(2023, 2, 23), new Date(2023, 2, 24)],
-      timeSlotChosen: timeSlotChosen,
-      setTimeSlotChosen: setTimeSlotChosen,
+    ctx.setBackDropStatus?.(true);
+    console.log(timeSlotChosen)
+    const form = {
+      AppointmentNumber: sessionStorage.getItem("AppointmentNumber"),
+      "doctor_email": timeSlotChosen[0]
     }
-  ]
+    try {
+      const resp = await updateAppointment(form);
+      ctx.setBackDropStatus?.(false);
+      ctx.navigate?.('/patient/chatbot');
+    } catch (err) {
+      ctx.openSnackBar?.(`Error: ${err}`, "error");
+      ctx.setBackDropStatus?.(false);
+    }
+  };
 
   return (
     <BaseContainer
@@ -66,7 +88,7 @@ export default function ChooseDoctor() {
             }}
           >
             {doctors.map((doc) => (
-              <DoctorTimeSlot {...doc} />
+              <DoctorTimeSlot {...doc} setTimeSlotChosen={setTimeSlotChosen} timeSlotChosen={timeSlotChosen} />
             ))}
             <Button
               onClick={handleSubmit}

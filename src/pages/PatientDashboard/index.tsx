@@ -3,7 +3,7 @@ import * as React from 'react';
 
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation, matchRoutes, Route, Routes, Link } from 'react-router-dom';
-import { getPatientProfile } from '../../api/apiGateway';
+import {getPatientAppointments, getPatientProfile} from '../../api/apiGateway';
 import AppContext from '../../api/AppContext';
 
 import Navigator from '../../components/BottomNavigator';
@@ -29,6 +29,20 @@ export default function PatientDashboard() {
     const user = !!userStr ? JSON.parse(userStr) : null;
     const isProfileAvailable = !!user.dob;
     const [name, setName] = useState(isProfileAvailable ? user.fname + ' ' + user.lname: "");
+    const [appointment, setAppointments] = useState([]);
+
+    useEffect( () => {
+        // if (!user.dob) {
+        ctx.setBackDropStatus?.(true);
+        getPatientAppointments(ctx.user.email).then(
+            (response: AxiosResponse) => {
+                const data = response.data
+                console.log(data)
+                setAppointments(data)
+                ctx.setBackDropStatus?.(false);
+            })
+        // }
+    }, [])
 
     useEffect(() => {
         if (urlTag !== tag) {
@@ -71,9 +85,9 @@ export default function PatientDashboard() {
 
             }}>
                 <Routes>
-                    <Route path="/" element={<Home name={name} />} />
-                    <Route path="/home" element={<Home name={name} />} />
-                    <Route path="/appointments" element={<Appointments />} />
+                    <Route path="/" element={<Home name={name} appointments={appointment} />} />
+                    <Route path="/home" element={<Home name={name} appointments={appointment} />} />
+                    <Route path="/appointments" element={<Appointments appointments={appointment}/>} />
                     <Route path="/profile" element={<Profile />} />
                 </Routes>
             </div>

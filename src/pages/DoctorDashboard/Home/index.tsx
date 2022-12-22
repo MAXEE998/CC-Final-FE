@@ -10,10 +10,11 @@ import {AxiosResponse} from "axios";
 
 interface Props {
     name: string
+    appointments: any[]
 }
 
 export default function Home(props: Props) {
-    const { name } = props
+    const { name, appointments } = props
     const ctx = React.useContext(AppContext);
 
     return (<>
@@ -28,20 +29,22 @@ export default function Home(props: Props) {
             <Typography component="h1" variant="h6" fontSize="16px" sx={{ p:1, width: "100%"}}>
                 Upcoming Appointment
             </Typography>
-            <DoctorAppointmentInfoCard
-                doctorName={"Jane Master"}
-                time={new Date()}
-                mainComplaint="Cold"
-                zoomLink="https://nyu.zoom.us/u/aBZ7UmW70"
-                collapsable={false}
-                vaccinationStatus="Flu and Covid-19 series"
-                symptoms="cough"
-                symptomsLasted="3 days"
-                insurance="covered"
-                relevantDocuments={["A", "B", "C"]}
-                summary={"aoeuthaoenuhoae"}
-                status={AppointmentStatus.Confirmed}
-            />
+            { appointments.filter(each => each.appointmentStatus === "confirmed").map(each => (
+                <DoctorAppointmentInfoCard
+                    patientName={each.patient_email.split("@")[0]}
+                    time={new Date(each.time)}
+                    mainComplaint="Flu"
+                    zoomLink={each.link}
+                    collapsable={false}
+                    vaccinationStatus="Flu and Covid-19 series"
+                    symptoms="cough"
+                    symptomsLasted="3 days"
+                    insurance="covered"
+                    relevantDocuments={each["relevant_docs"]}
+                    summary={each.details}
+                    status={each.appointmentStatus}
+                />
+            )) }
         </Box>
     </>);
 }

@@ -5,8 +5,13 @@ import Title from '../../../components/Title';
 import AppContext from '../../../api/AppContext';
 import { DoctorAppointmentInfoCard, AppointmentStatus } from '../../../components/DoctorAppointmentInfoCard';
 
+interface Props {
+    appointments: any[]
+}
 
-export default function Appointments() {
+export default function Appointments(props: Props) {
+    const { appointments } = props
+
     const ctx = React.useContext(AppContext);
 
     return (<>
@@ -18,20 +23,22 @@ export default function Appointments() {
             display: 'flex',
             flexDirection: 'column',
         }}>
-            <DoctorAppointmentInfoCard
-                doctorName={"Jane Master"}
-                time={new Date()}
-                mainComplaint="Cold"
-                zoomLink="https://nyu.zoom.us/u/aBZ7UmW70"
-                collapsable={false}
-                vaccinationStatus="Flu and Covid-19 series"
-                symptoms="cough"
-                symptomsLasted="3 days"
-                insurance="covered"
-                relevantDocuments={["A", "B", "C"]}
-                summary={"onetuhonetuhnoetuh"}
-                status={AppointmentStatus.Pending}
-            />
+            { appointments.map(each => (
+                <DoctorAppointmentInfoCard
+                    patientName={each.patient_email.split("@")[0]}
+                    time={new Date(each.time)}
+                    mainComplaint="Flu"
+                    zoomLink={each.link}
+                    collapsable={true}
+                    vaccinationStatus="Flu and Covid-19 series"
+                    symptoms="cough"
+                    symptomsLasted="3 days"
+                    insurance="covered"
+                    relevantDocuments={each["relevant_docs"]}
+                    summary={each.details}
+                    status={each.appointmentStatus}
+                />
+            )) }
         </Box>
     </>);
 }

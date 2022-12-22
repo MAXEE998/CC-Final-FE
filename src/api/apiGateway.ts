@@ -44,6 +44,16 @@ export function patientSignUp(data: any): any {
   return postURL(url, data).catch((err: AxiosError) => err.response);
 }
 
+export function createAppointment(data: any): any {
+  const url = '/patient/create-appointment';
+  return postURL(url, data).catch((err: AxiosError) => err.response);
+}
+
+export function updateAppointment(data: any): any {
+  const url = '/patient/update-appointment';
+  return postURL(url, data).catch((err: AxiosError) => err.response);
+}
+
 export function doctorSignIn(data: any): any {
   const url = '/doctor/signin';
   return postURL(url, data).catch((err: AxiosError) => err.response);
@@ -69,6 +79,24 @@ export const getDoctorProfile: any = (email: string) => {
 export const getDoctorAppointments: any = (email: string) => {
   const url =
       `/doctor/appointment?id=${email}`;
+  return fetchURL(url);
+};
+
+export const getPatientAppointments: any = (email: string) => {
+  const url =
+      `/patient/appointment?PatientID=${email}`;
+  return fetchURL(url);
+};
+
+export const getDoctors: any = () => {
+  const url =
+      `/doctor`;
+  return fetchURL(url);
+};
+
+export const getAppointment: any = (id: string) => {
+  const url =
+      `/appointment?ID=${id}`;
   return fetchURL(url);
 };
 

@@ -35,6 +35,7 @@ export default function DoctorDashboard() {
             (response: AxiosResponse) => {
                 const data = response.data
                 console.log(data)
+                setAppointments(data)
                 ctx.setBackDropStatus?.(false);
             })
         // }
@@ -80,9 +81,9 @@ export default function DoctorDashboard() {
 
             }}>
                 <Routes>
-                    <Route path="/" element={<Home name={name}/>} />
-                    <Route path="/home" element={<Home name={name}/>} />
-                    <Route path="/appointments" element={<Appointments />} />
+                    <Route path="/" element={<Home name={name} appointments={appointment} />} />
+                    <Route path="/home" element={<Home name={name} appointments={appointment} />} />
+                    <Route path="/appointments" element={<Appointments appointments={appointment}/>} />
                     <Route path="/profile" element={<Profile />} />
                 </Routes>
             </div>

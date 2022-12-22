@@ -19,6 +19,7 @@ import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import ArticleIcon from '@mui/icons-material/Article';
 import React, { useState } from 'react';
+import {isValidDate} from "../../api/utils";
 
 enum AppointmentStatus {
   Pending,
@@ -28,7 +29,7 @@ enum AppointmentStatus {
 }
 
 interface Props {
-  doctorName: string;
+  patientName: string;
   time: Date;
   mainComplaint: string;
   zoomLink: string;
@@ -39,22 +40,44 @@ interface Props {
   insurance: string;
   relevantDocuments: string[];
   summary: string;
-  status: AppointmentStatus;
+  status: string;
 }
 
 export default function DoctorAppointmentInfoCard(props: Props) {
 
-  const {
-    doctorName, time, mainComplaint,
+  const strToStatus = (str: string) => {
+    if (str === 'pending') {
+      return AppointmentStatus.Pending
+    }
+
+    if (str === 'confirmed') {
+      return AppointmentStatus.Confirmed
+    }
+
+    if (str === 'declined') {
+      return AppointmentStatus.Declined
+    }
+
+    return AppointmentStatus.Finished
+  }
+
+  let {
+    patientName, time, mainComplaint,
     zoomLink, collapsable,
     vaccinationStatus, insurance, relevantDocuments, summary,
     symptoms, symptomsLasted, status,
    } = props;
+
+  if (!isValidDate(time)) {
+    time = new Date(2023, 2, 12, 12);
+  }
+
+  const statusEnum = strToStatus(status)
   const [open, setOpen] = useState(!collapsable);
   const [fileOpen, setFileOpen] = useState(true);
 
   const buttons = () => {
-    if (status == AppointmentStatus.Pending) {
+    if (statusEnum == AppointmentStatus.Pending) {
       return (
         <Box sx={{ display:'flex', justifyContent:'center' }}>
           <Button color='success'>
@@ -67,7 +90,7 @@ export default function DoctorAppointmentInfoCard(props: Props) {
       )
     }
 
-    if (status == AppointmentStatus.Confirmed) {
+    if (statusEnum == AppointmentStatus.Confirmed) {
       return (
         <Box sx={{ display:'flex', justifyContent:'center' }}>
           <Button color='primary'>
@@ -92,7 +115,7 @@ export default function DoctorAppointmentInfoCard(props: Props) {
           borderRadius: '16px'
         }}>
         <CardHeader
-          title={`Appointment with ${doctorName}`}
+          title={`Appointment with ${patientName}`}
           titleTypographyProps={{
             component: 'h2',
             fontSize:"14px",

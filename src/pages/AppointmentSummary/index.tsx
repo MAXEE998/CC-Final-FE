@@ -7,15 +7,35 @@ import * as React from 'react';
 import BaseContainer from '../../components/BaseContainer';
 import AppointmentInfoCard from '../../components/AppointmentInfoCard';
 import AppContext from '../../api/AppContext';
+import {drawerClasses} from "@mui/material";
+import {getAppointment} from "../../api/apiGateway";
+import {AxiosResponse} from "axios";
 
 export default function AppointmentSummary() {
   const ctx = React.useContext(AppContext);
+    const [appointment, setAppointment] = React.useState({
+        doctor_email: "",
+        time: new Date(),
+        link: "google.com",
+    });
+
+    React.useEffect(() => {
+        ctx.setBackDropStatus?.(true);
+      getAppointment(sessionStorage.getItem("AppointmentNumber")).then(
+          (resp: AxiosResponse) => {
+              console.log(resp.data);
+              setAppointment(resp.data);
+              ctx.setBackDropStatus?.(false);
+          })
+  }, [])
   const handleSubmit = async (event: React.FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    sessionStorage.removeItem("AppointmentNumber")
     ctx.navigate?.(`/patient/dashboard`);
   };
 
-  return (
+  // @ts-ignore
+    return (
     <BaseContainer
       style={{
         display: 'flex',
@@ -48,10 +68,10 @@ export default function AppointmentSummary() {
             }}
           >
             <AppointmentInfoCard
-              doctorName={"Jane Master"}
-              time={new Date()}
-              mainComplaint="Cold"
-              zoomLink="https://nyu.zoom.us/u/aBZ7UmW70"
+              doctorName={appointment?.doctor_email.split("@")[0]}
+              time={new Date(appointment?.time)}
+              mainComplaint="Flu"
+              zoomLink={appointment?.link}
               collapsable={false}
             />
             <Button

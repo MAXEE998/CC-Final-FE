@@ -43,3 +43,12 @@ export const toBase64 = (file: File) =>
     reader.onload = () => resolve(reader.result.split(',')[1]);
     reader.onerror = (error) => reject(error);
   });
+
+export function getRandomArbitrary(min: number, max: number) {
+  return Math.random() * (max - min) + min;
+}
+
+export function isValidDate(d: any) {
+  // @ts-ignore
+  return d instanceof Date && !isNaN(d);
+}

@@ -5,12 +5,17 @@ import Title from '../../../components/Title';
 import AppContext from '../../../api/AppContext';
 import AppointmentInfoCard from '../../../components/AppointmentInfoCard';
 
+interface Props {
+    appointments: any[]
+}
 
-export default function Appointments() {
+export default function Appointments(props: Props) {
+    const { appointments } = props
+    console.log(typeof appointments)
     const ctx = React.useContext(AppContext);
 
     return (<>
-        <Title>Your Appointments </Title>
+        <Title> Your Appointments </Title>
         <Box sx={{
             m:2, 
             alignItems: 'center',
@@ -18,13 +23,16 @@ export default function Appointments() {
             display: 'flex',
             flexDirection: 'column',
         }}>
-            <AppointmentInfoCard
-                doctorName={"Jane Master"}
-                time={new Date()}
-                mainComplaint="Cold"
-                zoomLink="https://nyu.zoom.us/u/aBZ7UmW70"
-                collapsable={false}
-            />
+            { appointments.map(each => (
+                <AppointmentInfoCard
+                    doctorName={!!each.doctor_email?each.doctor_email.split("@")[0]:""}
+                    time={new Date(each.time)}
+                    mainComplaint="Flu"
+                    zoomLink={each.link}
+                    collapsable={false}
+                />
+            ))
+            }
         </Box>
     </>);
 }
