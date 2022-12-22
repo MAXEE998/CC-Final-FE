@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Alert, AlertColor, Backdrop, CircularProgress, Snackbar } from '@mui/material';
 import { Routes, useLocation, useNavigate } from 'react-router-dom';
@@ -17,6 +17,31 @@ const App = () => {
   const [snackBarSeverity, setSnackBarSeverity] = React.useState<AlertColor>('success');
   const [snackBarMessage, setSnackBarMessage] = React.useState<string>('');
 
+  const userStr = localStorage.getItem("tmd-user");
+  const user = !!userStr ? JSON.parse(userStr) : null;
+
+  useEffect(() => { // access control
+    const unauthPath = [
+      '/', '/doctor', '/patient',
+      '/patient/signin', '/patient/signup',
+      '/doctor/signin', '/doctor/signup',
+    ]
+
+
+    const path = location.pathname.endsWith('/') ? location.pathname.slice(0, -1) : location.pathname
+    if (!userStr && !unauthPath.includes(path)) {
+      navigate(`/`);
+      return ;
+    }
+
+    if (!!userStr) {
+      if (unauthPath.includes(path) || path.split('/')[1] !== user.role) {
+        navigate(`/${user.role}/dashboard`);
+        return;
+      }
+    }
+  }, [location.pathname]);
+
   const handleSnackBarClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return;
@@ -33,7 +58,7 @@ const App = () => {
     },
     logout: async (showMessage = false, backTo = '') => {
       try {
-        //await signOut(); // TODO
+        localStorage.removeItem("tmd-user");
         navigate(`/${backTo ? `?redirect=${backTo}` : ''}`);
         if (showMessage) {
           call('openSnackBar', 'Success, you are logged out!');
@@ -44,7 +69,8 @@ const App = () => {
     },
     navigate: (path: string) => {
       navigate(path);
-    }
+    },
+    user: user
   };
 
   assign('helpers', helpers);

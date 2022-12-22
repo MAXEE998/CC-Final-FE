@@ -42,9 +42,11 @@ export default function SignIn(props: Props) {
         ctx.openSnackBar?.(`Error: Please check your email and password!`, "error");
       } else {
         const user = {
-          username: email
+          email: email,
+          role: isPatient ? 'patient' : 'doctor'
         };
-        ctx.openSnackBar?.(`Success, welcome back ${user.username}!`, "success");
+        localStorage.setItem("tmd-user", JSON.stringify(user));
+        ctx.openSnackBar?.(`Success, welcome back ${user.email}!`, "success");
         ctx.navigate?.(redirectTo || `/${isPatient? "patient": "doctor"}/dashboard/`);
       }
 

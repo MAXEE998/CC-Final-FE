@@ -6,6 +6,7 @@ export interface IAppContext {
   openSnackBar?: (message: string, severity: AlertColor) => void;
   logout?: (showMessage?: boolean, backTo?: string) => void;
   navigate?: (path: string) => void;
+  user?: any;
 }
 
 export default React.createContext<IAppContext>({});
