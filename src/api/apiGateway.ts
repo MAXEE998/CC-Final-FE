@@ -22,7 +22,17 @@ export function patientSignIn(data: any): any {
   return postURL(url, data).catch((err: AxiosError) => err.response);
 }
 
+export function patientSignUp(data: any): any {
+  const url = '/patient/signup';
+  return postURL(url, data).catch((err: AxiosError) => err.response);
+}
+
 export function doctorSignIn(data: any): any {
   const url = '/doctor/signin';
+  return postURL(url, data).catch((err: AxiosError) => err.response);
+}
+
+export function doctorSignUp(data: any): any {
+  const url = '/doctor/signup';
   return postURL(url, data).catch((err: AxiosError) => err.response);
 }

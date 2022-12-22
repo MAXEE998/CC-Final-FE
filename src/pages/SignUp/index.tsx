@@ -1,3 +1,4 @@
+import { AxiosResponse } from 'axios';
 import React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -13,6 +14,7 @@ import Container from '@mui/material/Container';
 import { DatePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { doctorSignUp, patientSignUp } from '../../api/apiGateway';
 import BaseContainer from '../../components/BaseContainer';
 import AppContext from '../../api/AppContext';
 import { InputLabel, Select, MenuItem, FormControl } from '@mui/material';
@@ -31,27 +33,41 @@ export default function SignUp(props: Props) {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    for (let k of data.keys()) {
-      console.log(k);
-      console.log(data.get(k))
+    const form = {
+      fname: data.get("firstName"),
+      lname: data.get("lastName"),
+      email: data.get("email"),
+      phonenumber: data.get("phonenumber"),
+      password: data.get("password"),
+      dob: data.get("dob"),
+      gender: data.get("gender"),
+      docs: "",
+      medicalInfo: [],
     }
-    //
-    // ctx.setBackDropStatus?.(true);
-    // const success = () => {
-    //   ctx.openSnackBar?.(`Success, please use your username and password to login!`, "success");
-    //   ctx.navigate?.(`/signin${redirectTo ? `?redirect=${redirectTo}` : ''}`);
-    // }
-    // try {
-    //   success();
-    // } catch(err) {
-    //   // TODO: backend fallback
-    //   if (`${err}`.includes('Unrecognizable lambda output')) {
-    //     success();
-    //   } else {
-    //     ctx.openSnackBar?.(`Error: ${err}`, "error");
-    //   }
-    // }
-    // ctx.setBackDropStatus?.(false);
+
+
+    ctx.setBackDropStatus?.(true);
+    const success = () => {
+      ctx.openSnackBar?.(`Success, please use your username and password to login!`, "success");
+      ctx.navigate?.(`/${isPatient ? 'patient' : 'doctor'}/signin${redirectTo ? `?redirect=${redirectTo}` : ''}`);
+    }
+    try {
+      const signUp = isPatient ? patientSignUp : doctorSignUp;
+      const res: AxiosResponse = await signUp(form)
+      if (res.status == 200) {
+        success();
+      } else {
+        ctx.openSnackBar?.(`Error: User already exists!`, "error");
+      }
+    } catch(err) {
+      // TODO: backend fallback
+      if (`${err}`.includes('Unrecognizable lambda output')) {
+        success();
+      } else {
+        ctx.openSnackBar?.(`Error: ${err}`, "error");
+      }
+    }
+    ctx.setBackDropStatus?.(false);
   };
 
   return (
