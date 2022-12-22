@@ -1,3 +1,4 @@
+import { AxiosResponse } from 'axios';
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -13,6 +14,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import BaseContainer from '../../components/BaseContainer';
 import AppContext from '../../api/AppContext';
+import { patientSignIn, doctorSignIn } from '../../api/apiGateway';
 
 interface Props {
   isPatient: boolean;
@@ -27,14 +29,25 @@ export default function SignIn(props: Props) {
     const data = new FormData(event.currentTarget);
     const email = data.get('email')?.toString() || '';
     const password = data.get('password')?.toString() || '';
-
+    const signIn = isPatient ? patientSignIn : doctorSignIn;
     ctx.setBackDropStatus?.(true);
     try {
-      const user = {
-        username: "Hongyi"
-      };
-      ctx.openSnackBar?.(`Success, welcome back ${user.username}!`, "success");
-      ctx.navigate?.(redirectTo || `/${isPatient? "patient": "doctor"}/dashboard/`);
+      const res: AxiosResponse = await signIn(
+        {
+          "email": email,
+          "password": password,
+        }
+      )
+      if (res.status != 200) {
+        ctx.openSnackBar?.(`Error: Please check your email and password!`, "error");
+      } else {
+        const user = {
+          username: email
+        };
+        ctx.openSnackBar?.(`Success, welcome back ${user.username}!`, "success");
+        ctx.navigate?.(redirectTo || `/${isPatient? "patient": "doctor"}/dashboard/`);
+      }
+
     } catch(err) {
       ctx.openSnackBar?.(`Error: ${err}`, "error");
     }
