@@ -5,14 +5,18 @@ import Title from '../../../components/Title';
 import AppContext from '../../../api/AppContext';
 import AppointmentInfoCard from '../../../components/AppointmentInfoCard';
 
+interface Props {
+    name: string
+}
 
-export default function Home() {
+export default function Home(props: Props) {
+    const { name } = props
     const ctx = React.useContext(AppContext);
 
     return (<>
-        <Title>Hi Testuser, welcome to TeleMD!</Title>
+        <Title>{`Hi ${name}, welcome to TeleMD!`}</Title>
         <Box sx={{
-            m:2, 
+            m:2,
             alignItems: 'center',
             justifyContent: 'center',
             display: 'flex',

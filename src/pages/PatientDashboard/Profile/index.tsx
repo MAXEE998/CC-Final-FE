@@ -8,6 +8,7 @@ import AppContext from '../../../api/AppContext';
 
 import { ArrowBack } from '@mui/icons-material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import RefreshIcon from '@mui/icons-material/Refresh';
 import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined';
 
 export default function Profile() {
@@ -28,7 +29,7 @@ export default function Profile() {
     const [docs, setDocs] = useState<string[]>(isProfileAvailable ? user.docs: []);
 
     useEffect( () => {
-        // if (!user.dob) {
+        if (!user.dob) {
             ctx.setBackDropStatus?.(true);
             getPatientProfile(email).then(
               (response: AxiosResponse) => {
@@ -48,9 +49,30 @@ export default function Profile() {
                 setDocs(user.docs);
                 ctx.setBackDropStatus?.(false);
               })
-        // }
+        }
       }, [])
 
+    const handleRefresh = async () => {
+      ctx.setBackDropStatus?.(true);
+      getPatientProfile(email).then(
+        (response: AxiosResponse) => {
+          console.log(response.data)
+          const data = response.data
+          user.dob = data.dob
+          user.gender = data.gender
+          user.phonenumber = data.phonenumber
+          user.lname = data.lname
+          user.fname = data.fname
+          user.docs = !!data?.docs ? data.docs : []
+          localStorage.setItem("tmd-user", JSON.stringify(user));
+          setName(data.fname + ' ' + data.lname);
+          setGender(data.gender);
+          setPhone(data.phonenumber);
+          setDOB(data.dob);
+          setDocs(user.docs);
+          ctx.setBackDropStatus?.(false);
+        })
+    }
 
 
     return (<>
@@ -63,6 +85,11 @@ export default function Profile() {
                 !userEmail
                 ? null
                 : <Box sx={{ width: 40, height: 40, position: 'absolute', display: 'flex', alignItems: 'center', justifyContent: 'center', left: 20, top: 20 }} onClick={() => navigate(-1)}><ArrowBack /></Box>
+            }
+            {
+              !userEmail
+                ? null
+                : <Box sx={{ width: 40, height: 40, position: 'absolute', display: 'flex', alignItems: 'center', justifyContent: 'center', right: 20, top: 20 }} onClick={handleRefresh}><RefreshIcon /></Box>
             }
             <Avatar sx={{ width: 120, height: 120, fontSize: 40, fontWeight: 700, marginTop: 10 }} >{(name || ' ')[0].toLocaleUpperCase()}</Avatar>
             <h1>{name || 'N/A'}</h1>
