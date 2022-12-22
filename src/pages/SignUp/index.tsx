@@ -41,7 +41,6 @@ export default function SignUp(props: Props) {
       password: data.get("password"),
       dob: data.get("dob"),
       gender: data.get("gender"),
-      docs: "",
       medicalInfo: [],
     }
 

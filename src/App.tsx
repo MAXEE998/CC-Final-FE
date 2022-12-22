@@ -56,10 +56,10 @@ const App = () => {
       setSnackBarMessage(message);
       setSnackBarStatus(true);
     },
-    logout: async (showMessage = false, backTo = '') => {
+    logout: async (showMessage = false, isPatient = true) => {
       try {
         localStorage.removeItem("tmd-user");
-        navigate(`/${backTo ? `?redirect=${backTo}` : ''}`);
+        navigate(`/${isPatient ? '' : 'doctor'}`);
         if (showMessage) {
           call('openSnackBar', 'Success, you are logged out!');
         }

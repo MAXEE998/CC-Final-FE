@@ -1,8 +1,10 @@
-import * as React from 'react';
+import { AxiosResponse } from 'axios';
+import React, { useEffect, useState } from 'react';
+import { matchRoutes, useLocation, useNavigate } from 'react-router-dom';
 
 import { Avatar, Box, Button, Divider, IconButton, List, ListItem, ListItemAvatar, ListItemText, Paper } from '@mui/material';
+import { getPatientProfile } from '../../../api/apiGateway';
 import AppContext from '../../../api/AppContext';
-import { matchRoutes, useLocation, useNavigate } from 'react-router-dom';
 
 import { ArrowBack } from '@mui/icons-material';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -13,13 +15,40 @@ export default function Profile() {
 
     const location = useLocation();
     const navigate = useNavigate ();
-    const profileUserName = 'fw2210';
+    const userStr = localStorage.getItem("tmd-user");
+    const user = !!userStr ? JSON.parse(userStr) : null;
+    const userEmail = user.email;
+    const isProfileAvailable = !!user.dob;
 
-    const [name, setName] = React.useState('Florence Welch');
-    const [gender, setGender] = React.useState('female');
-    const [email, setEmail] = React.useState('fw@gmail.com');
-    const [phone, setPhone] = React.useState('9175551511');
-    const [dob, setDOB] = React.useState('1998-08-08'); 
+    const [name, setName] = useState(isProfileAvailable ? user.fname + ' ' + user.lname: "");
+    const [gender, setGender] = useState(isProfileAvailable ? user.gender: "");
+    const [email, setEmail] = useState(userEmail);
+    const [phone, setPhone] = useState(isProfileAvailable ? user.phonenumber: "");
+    const [dob, setDOB] = useState(isProfileAvailable ? user.dob: "");
+
+    useEffect( () => {
+        if (!user.dob) {
+            ctx.setBackDropStatus?.(true);
+            getPatientProfile(email).then(
+              (response: AxiosResponse) => {
+                  console.log(response.data)
+                  const data = response.data
+                  user.dob = data.dob
+                  user.gender = data.gender
+                  user.phonenumber = data.phonenumber
+                  user.lname = data.lname
+                  user.fname = data.fname
+                  localStorage.setItem("tmd-user", JSON.stringify(user));
+                  setName(data.fname + ' ' + data.lname);
+                  setGender(data.gender);
+                  setPhone(data.phonenumber);
+                  setDOB(data.dob);
+                  ctx.setBackDropStatus?.(false);
+              })
+        }
+      }, [])
+
+
 
     return (<>
         <Box sx={{
@@ -28,7 +57,7 @@ export default function Profile() {
             alignItems: 'center',
         }}>
             {
-                !profileUserName
+                !userEmail
                 ? null
                 : <Box sx={{ width: 40, height: 40, position: 'absolute', display: 'flex', alignItems: 'center', justifyContent: 'center', left: 20, top: 20 }} onClick={() => navigate(-1)}><ArrowBack /></Box>
             }
@@ -65,12 +94,12 @@ export default function Profile() {
             </Paper>
 
             {
-                profileUserName
-                ? 
-                <Button 
-                    sx={{ width: '86%', marginTop: 5 }} 
-                    size="large" variant="contained" color="error" 
-                    onClick={() => {ctx.logout?.()}} 
+                userEmail
+                ?
+                <Button
+                    sx={{ width: '86%', marginTop: 5 }}
+                    size="large" variant="contained" color="error"
+                    onClick={() => {ctx.logout?.()}}
                 >
                 Log Me Out
                 </Button>
