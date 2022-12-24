@@ -54,6 +54,11 @@ export function updateAppointment(data: any): any {
   return postURL(url, data).catch((err: AxiosError) => err.response);
 }
 
+export function confirmAppointment(data: any): any {
+  const url = '/doctor/confirm-appointment';
+  return postURL(url, data).catch((err: AxiosError) => err.response);
+}
+
 export function doctorSignIn(data: any): any {
   const url = '/doctor/signin';
   return postURL(url, data).catch((err: AxiosError) => err.response);

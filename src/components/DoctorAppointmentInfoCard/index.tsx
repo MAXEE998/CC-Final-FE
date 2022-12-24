@@ -29,6 +29,7 @@ enum AppointmentStatus {
 }
 
 interface Props {
+  id: string;
   patientName: string;
   time: Date;
   mainComplaint: string;
@@ -41,6 +42,7 @@ interface Props {
   relevantDocuments: string[];
   summary: string;
   status: string;
+  updateHandler: any;
 }
 
 export default function DoctorAppointmentInfoCard(props: Props) {
@@ -60,30 +62,43 @@ export default function DoctorAppointmentInfoCard(props: Props) {
 
     return AppointmentStatus.Finished
   }
+  const statusToColor = (s:AppointmentStatus) => {
+    switch (s) {
+      case AppointmentStatus.Confirmed:
+        return 'rgba(17,121,12,0.78)'
+      case AppointmentStatus.Pending:
+        return 'rgba(255,255,0,0.5)'
+      case AppointmentStatus.Declined:
+        return 'rgb(117,6,6)'
+      case AppointmentStatus.Finished:
+        return 'rgb(30,30,30)'
+    }
+  }
 
   let {
     patientName, time, mainComplaint,
     zoomLink, collapsable,
     vaccinationStatus, insurance, relevantDocuments, summary,
-    symptoms, symptomsLasted, status,
+    symptoms, symptomsLasted, status, updateHandler, id
    } = props;
 
   if (!isValidDate(time)) {
     time = new Date(2023, 2, 12, 12);
   }
 
-  const statusEnum = strToStatus(status)
   const [open, setOpen] = useState(!collapsable);
   const [fileOpen, setFileOpen] = useState(true);
 
   const buttons = () => {
+    console.log(status)
+    const statusEnum = strToStatus(status)
     if (statusEnum == AppointmentStatus.Pending) {
       return (
         <Box sx={{ display:'flex', justifyContent:'center' }}>
-          <Button color='success'>
+          <Button color='success' onClick={() => {updateHandler(id, "confirmed")}}>
             Accept
           </Button>
-          <Button color='error'>
+          <Button color='error' onClick={() => {updateHandler(id, "declined")}} >
             Decline
           </Button>
         </Box>
@@ -93,7 +108,7 @@ export default function DoctorAppointmentInfoCard(props: Props) {
     if (statusEnum == AppointmentStatus.Confirmed) {
       return (
         <Box sx={{ display:'flex', justifyContent:'center' }}>
-          <Button color='primary'>
+          <Button color='primary' onClick={() => {updateHandler(id, "finished")}} >
             Finish
           </Button>
         </Box>
@@ -120,6 +135,9 @@ export default function DoctorAppointmentInfoCard(props: Props) {
             component: 'h2',
             fontSize:"14px",
           }}
+          sx={{
+            backgroundColor: statusToColor((strToStatus(status)))
+          }}
           action={
             <IconButton
               onClick={() => setOpen(!open)}
@@ -131,7 +149,7 @@ export default function DoctorAppointmentInfoCard(props: Props) {
           }
         >
         </CardHeader>
-        <div style={{backgroundColor: 'rgba(11,11,11)'}}>
+        <div style={{backgroundColor: 'rgba(140,96,122,0.78)'}}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <CardContent sx={{typography: {fontSize: 12}, mr: 2, mt: 0}}>
               <List>
@@ -227,19 +245,19 @@ export default function DoctorAppointmentInfoCard(props: Props) {
                   </ListItemButton>
                 <Collapse in={fileOpen} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding sx={{ pl: 4 }}>
-                      <ListItem sx={{ pl: 4 }}>
-                        <ListItemIcon>
-                          <ArticleIcon />
-                        </ListItemIcon>
-                        <ListItemText primary={<a href="https://google.com">a.txt</a>} />
-                      </ListItem>
-                      <Divider variant="middle" component="li"/>
-                      <ListItem sx={{ pl: 4 }}>
-                        <ListItemIcon>
-                          <ArticleIcon />
-                        </ListItemIcon>
-                        <ListItemText primary={<a href="https://google.com">b.txt</a>} />
-                      </ListItem>
+                      {!relevantDocuments? null : relevantDocuments.map((doc) => (
+                        <>
+                          <ListItem sx={{ pl: 4 }}>
+                            <ListItemIcon>
+                              <ArticleIcon />
+                            </ListItemIcon>
+                            <ListItemText
+                              primary={<a href={`https://files-telemedicine.s3.amazonaws.com/${doc}`}>{doc}</a> }
+                            />
+                          </ListItem>
+                          <Divider variant="middle" component="li"/>
+                        </>
+                        ))}
                     </List>
                   </Collapse>
               </List>

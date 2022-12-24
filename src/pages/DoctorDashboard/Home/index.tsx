@@ -1,21 +1,17 @@
-import { Box, Container, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import * as React from 'react';
 
 import Title from '../../../components/Title';
-import AppContext from '../../../api/AppContext';
-import { DoctorAppointmentInfoCard, AppointmentStatus } from '../../..//components/DoctorAppointmentInfoCard';
-import {useEffect, useState} from "react";
-import {getDoctorAppointments} from "../../../api/apiGateway";
-import {AxiosResponse} from "axios";
+import { DoctorAppointmentInfoCard } from '../../../components/DoctorAppointmentInfoCard';
 
 interface Props {
     name: string
     appointments: any[]
+    updateHandler: any
 }
 
 export default function Home(props: Props) {
-    const { name, appointments } = props
-    const ctx = React.useContext(AppContext);
+    const { name, appointments, updateHandler } = props
 
     return (<>
         <Title>{`Hi Doctor ${name}, welcome to TeleMD!`}</Title>
@@ -31,6 +27,7 @@ export default function Home(props: Props) {
             </Typography>
             { appointments.filter(each => each.appointmentStatus === "confirmed").map(each => (
                 <DoctorAppointmentInfoCard
+                    id={each.AppointmentNumber}
                     patientName={each.patient_email.split("@")[0]}
                     time={new Date(each.time)}
                     mainComplaint="Flu"
@@ -42,7 +39,8 @@ export default function Home(props: Props) {
                     insurance="covered"
                     relevantDocuments={each["relevant_docs"]}
                     summary={each.details}
-                    status={each.appointmentStatus}
+                    status={each["appointmentStatus"]}
+                    updateHandler={updateHandler}
                 />
             )) }
         </Box>

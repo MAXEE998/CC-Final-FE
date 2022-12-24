@@ -27,8 +27,8 @@ const App = () => {
       '/doctor/signin', '/doctor/signup',
     ]
 
-
     const path = location.pathname.endsWith('/') ? location.pathname.slice(0, -1) : location.pathname
+
     if (!userStr && !unauthPath.includes(path)) {
       navigate(`/`);
       return ;

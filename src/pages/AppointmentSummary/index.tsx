@@ -7,7 +7,6 @@ import * as React from 'react';
 import BaseContainer from '../../components/BaseContainer';
 import AppointmentInfoCard from '../../components/AppointmentInfoCard';
 import AppContext from '../../api/AppContext';
-import {drawerClasses} from "@mui/material";
 import {getAppointment} from "../../api/apiGateway";
 import {AxiosResponse} from "axios";
 
@@ -15,7 +14,7 @@ export default function AppointmentSummary() {
   const ctx = React.useContext(AppContext);
     const [appointment, setAppointment] = React.useState({
         doctor_email: "",
-        time: new Date(),
+        meet_time: new Date(),
         link: "google.com",
     });
 
@@ -69,7 +68,7 @@ export default function AppointmentSummary() {
           >
             <AppointmentInfoCard
               doctorName={appointment?.doctor_email.split("@")[0]}
-              time={new Date(appointment?.time)}
+              time={new Date(appointment?.meet_time)}
               mainComplaint="Flu"
               zoomLink={appointment?.link}
               collapsable={false}

@@ -11,9 +11,10 @@ export interface IBottomNavigation {
   currentActive: string;
   changeHandler: any;
   isDoctor?: boolean;
+  pendingAppointment?: number;
 }
 
-export default function Navigation({ currentActive, changeHandler, isDoctor }: IBottomNavigation) {
+export default function Navigation({ currentActive, changeHandler, isDoctor, pendingAppointment }: IBottomNavigation) {
   const handleChange = (event: React.SyntheticEvent, newTag: string) => {
     if (changeHandler && newTag !== currentActive) {
       changeHandler(newTag);
@@ -30,7 +31,10 @@ export default function Navigation({ currentActive, changeHandler, isDoctor }: I
       <BottomNavigationAction
         label="Appointments"
         value="appointments"
-        icon={!!isDoctor ? <Badge color="primary" badgeContent={1}><CalendarMonthIcon/></Badge> : <CalendarMonthIcon />}
+        icon={!!isDoctor && pendingAppointment ?
+          <Badge color="primary" badgeContent={pendingAppointment}><CalendarMonthIcon/></Badge>
+          : <CalendarMonthIcon />
+      }
       />
       <BottomNavigationAction
         label="Profile"

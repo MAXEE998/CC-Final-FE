@@ -1,17 +1,17 @@
-import React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
+import { Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { putFile, createAppointment } from '../../api/apiGateway';
+import CssBaseline from '@mui/material/CssBaseline';
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import React from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import { createAppointment, putFile } from '../../api/apiGateway';
+import AppContext from '../../api/AppContext';
 import { toBase64 } from '../../api/utils';
 import BaseContainer from '../../components/BaseContainer';
-import AppContext from '../../api/AppContext';
-import { InputLabel, Select, MenuItem, FormControl, Button, makeStyles } from '@mui/material';
 import FileUpload from '../../components/FileUpload';
-import { v4 as uuidv4 } from 'uuid';
 
 export default function CreateAppointment() {
 

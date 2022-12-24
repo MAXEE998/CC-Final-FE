@@ -21,10 +21,11 @@ export default function ChooseDoctor() {
   const processDoctor = (raws: { map: () => any; }) => {
     // @ts-ignore
     return raws.map((doc) => {
+      const randDate = getRandomArbitrary(1,28)
       return {
       doctorName : doc.fname + ' ' + doc.lname,
       doctorID: doc.DoctorID,
-      timeSlots: [new Date(2023, 2, 12, 12), new Date(2023, 2, 13, 12)],
+      timeSlots: [new Date(2023, 1, randDate, 12), new Date(2023, 1, randDate+1, 12)],
     }})
   }
 
@@ -39,11 +40,12 @@ export default function ChooseDoctor() {
   }, [])
   const handleSubmit = async (event: React.FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    ctx.setBackDropStatus?.(true);
+    //ctx.setBackDropStatus?.(true);
     console.log(timeSlotChosen)
     const form = {
       AppointmentNumber: sessionStorage.getItem("AppointmentNumber"),
-      "doctor_email": timeSlotChosen[0]
+      "doctor_email": timeSlotChosen[0],
+      time: timeSlotChosen[1],
     }
     try {
       const resp = await updateAppointment(form);

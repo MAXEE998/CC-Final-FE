@@ -27,11 +27,14 @@ export default function PatientDashboard() {
 
     const userStr = localStorage.getItem("tmd-user");
     const user = !!userStr ? JSON.parse(userStr) : null;
-    const isProfileAvailable = !!user.dob;
+    const isProfileAvailable = !!user?.dob;
     const [name, setName] = useState(isProfileAvailable ? user.fname + ' ' + user.lname: "");
     const [appointment, setAppointments] = useState([]);
 
     useEffect( () => {
+        if (!user) {
+          navigate('/');
+        }
         // if (!user.dob) {
         ctx.setBackDropStatus?.(true);
         getPatientAppointments(ctx.user.email).then(
