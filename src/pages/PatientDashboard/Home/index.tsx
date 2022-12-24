@@ -29,7 +29,7 @@ export default function Home(props: Props) {
             { appointments.filter(each => each.appointmentStatus === "confirmed").map(each => (
                 <AppointmentInfoCard
                     doctorName={!!each.doctor_email?each.doctor_email.split("@")[0]:""}
-                    time={new Date(each.time)}
+                    time={new Date(each.meet_time)}
                     mainComplaint="Flu"
                     zoomLink={each.link}
                     collapsable={false}

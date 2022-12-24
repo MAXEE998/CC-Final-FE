@@ -29,7 +29,7 @@ export default function Home(props: Props) {
                 <DoctorAppointmentInfoCard
                     id={each.AppointmentNumber}
                     patientName={each.patient_email.split("@")[0]}
-                    time={new Date(each.time)}
+                    time={new Date(each.meet_time)}
                     mainComplaint="Flu"
                     zoomLink={each.link}
                     collapsable={false}

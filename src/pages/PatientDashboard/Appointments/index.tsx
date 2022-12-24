@@ -17,7 +17,7 @@ export default function Appointments(props: Props) {
     return (<>
         <Title> Your Appointments </Title>
         <Box sx={{
-            m:2, 
+            m:2,
             alignItems: 'center',
             justifyContent: 'center',
             display: 'flex',
@@ -26,7 +26,7 @@ export default function Appointments(props: Props) {
             { appointments.map(each => (
                 <AppointmentInfoCard
                     doctorName={!!each.doctor_email?each.doctor_email.split("@")[0]:""}
-                    time={new Date(each.time)}
+                    time={new Date(each.meet_time)}
                     mainComplaint="Flu"
                     zoomLink={each.link}
                     collapsable={false}
