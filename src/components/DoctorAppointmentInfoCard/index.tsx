@@ -71,7 +71,7 @@ export default function DoctorAppointmentInfoCard(props: Props) {
       case AppointmentStatus.Declined:
         return 'rgb(117,6,6)'
       case AppointmentStatus.Finished:
-        return 'rgb(30,30,30)'
+        return 'rgba(119,119,180,0.99)'
     }
   }
 

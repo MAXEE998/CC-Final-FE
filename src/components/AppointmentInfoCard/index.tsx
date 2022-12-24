@@ -56,7 +56,7 @@ export default function AppointmentInfoCard(props: Props) {
           }
         >
         </CardHeader>
-        <div style={{backgroundColor: 'rgba(11,11,11)'}}>
+        <div style={{backgroundColor: 'rgb(175,171,190)'}}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <CardContent sx={{typography: {fontSize: 12}, mr: 2, mt: 0}}>
               <List>
