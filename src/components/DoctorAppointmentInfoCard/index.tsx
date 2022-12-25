@@ -40,7 +40,7 @@ interface Props {
   symptomsLasted: string;
   insurance: string;
   relevantDocuments: string[];
-  summary: string;
+  summary: string[];
   status: string;
   updateHandler: any;
 }
@@ -231,7 +231,7 @@ export default function DoctorAppointmentInfoCard(props: Props) {
                       <SummarizeIcon/>
                     </Avatar>
                   </ListItemAvatar>
-                  <ListItemText primary={summary}/>
+                  <ListItemText primary={summary.map(s => (<p> {s} </p>))}/>
                 </ListItem>
                 <Divider variant="inset" component="li"/>
                   <ListItemButton onClick={() => {setFileOpen(!fileOpen)}}>

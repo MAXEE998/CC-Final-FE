@@ -39,6 +39,7 @@ export default function DoctorDashboard() {
   }
 
   const updateAppointment = (id: string, status: string) => {
+    ctx.setBackDropStatus?.(true);
     const form = {
       AppointmentNumber: id,
       status: status,

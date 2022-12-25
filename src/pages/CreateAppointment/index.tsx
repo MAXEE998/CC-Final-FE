@@ -31,17 +31,16 @@ export default function CreateAppointment() {
       details: data.get("note")
     }
 
-      // file upload
-      for (let each of files) {
-        let fileData = await toBase64(each)
-        let resp = await putFile(each, fileData, ctx.user.email, form.AppointmentNumber);
-        console.log(resp.status)
-      }
-      setFiles([]);
-
       // create appointment
       try {
         let resp = await createAppointment(form);
+        // file upload
+        for (let each of files) {
+          let fileData = await toBase64(each)
+          let resp = await putFile(each, fileData, ctx.user.email, form.AppointmentNumber);
+          console.log(resp.status)
+        }
+        setFiles([]);
         sessionStorage.setItem("AppointmentNumber", form.AppointmentNumber);
         if (resp.status == 200) {
           ctx.setBackDropStatus?.(false);
