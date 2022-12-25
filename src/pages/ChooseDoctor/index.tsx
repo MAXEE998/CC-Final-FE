@@ -40,7 +40,7 @@ export default function ChooseDoctor() {
   }, [])
   const handleSubmit = async (event: React.FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    //ctx.setBackDropStatus?.(true);
+    ctx.setBackDropStatus?.(true);
     console.log(timeSlotChosen)
     const form = {
       AppointmentNumber: sessionStorage.getItem("AppointmentNumber"),

@@ -1,5 +1,4 @@
-﻿import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
-
+﻿import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 
 const invokeUrl = 'https://ana84j390f.execute-api.us-east-1.amazonaws.com/test';
 
@@ -105,8 +104,8 @@ export const getAppointment: any = (id: string) => {
   return fetchURL(url);
 };
 
-export const putFile: any = (file: File, data: any, email: string): any => {
+export const putFile: any = (file: File, data: any, email: string, appointmentNumber: string): any => {
   const url =
-    `/files/${file.name}`;
-  return putURL(url, data, { "Content-Type": "text/plain", "x-amz-meta-userEmail": email });
+    `/files/${appointmentNumber}-${file.name}`;
+  return putURL(url, data, { "Content-Type": "text/plain", "x-amz-meta-userEmail": email, "x-amz-meta-appointmentNumber": appointmentNumber});
 }
