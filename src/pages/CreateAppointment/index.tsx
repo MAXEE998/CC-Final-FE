@@ -21,35 +21,35 @@ export default function CreateAppointment() {
   const ctx = React.useContext(AppContext);
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    ctx.setBackDropStatus?.(true);
-    const data = new FormData(event.currentTarget);
+    ctx.setBackDropStatus?.(true);;
+      const data = new FormData(event.currentTarget);
 
-    // create appointment
-    const form = {
-      AppointmentNumber: uuidv4(),
-      patient_email: ctx.user.email,
-      link: "https://nyu.zoom.us/j/7281807429?pwd=NTR4TXpXYXJ6K3ozeHNoLzljZitrUT09",
-      details: data.get("note")
-    }
-    try {
-      let resp = await createAppointment(form);
-      sessionStorage.setItem("AppointmentNumber", form.AppointmentNumber);
-      if (resp.status == 200) {
-        // file upload
-        for (let each of files) {
-          let fileData = await toBase64(each)
-          resp = await putFile(each, fileData, ctx.user.email);
-          console.log(resp.status)
-          setFiles([]);
-        }
-        ctx.setBackDropStatus?.(false);
-        ctx.navigate?.('/patient/chooseDoctor')
-      } else {
-        ctx.setBackDropStatus?.(false);
-        ctx.openSnackBar?.("Error: something went wrong...", "error")
+      // file upload
+      for (let each of files) {
+        let fileData = await toBase64(each)
+        let resp = await putFile(each, fileData, ctx.user.email);
+        console.log(resp.status)
       }
-    } catch(err) {
-      ctx.openSnackBar?.(`Error: ${err}`, "error");
+      setFiles([]);
+      // create appointment
+      const form = {
+        AppointmentNumber: uuidv4(),
+        patient_email: ctx.user.email,
+        link: "https://nyu.zoom.us/j/7281807429?pwd=NTR4TXpXYXJ6K3ozeHNoLzljZitrUT09",
+        details: data.get("note")
+      }
+      try {
+        let resp = await createAppointment(form);
+        sessionStorage.setItem("AppointmentNumber", form.AppointmentNumber);
+        if (resp.status == 200) {
+          ctx.setBackDropStatus?.(false);
+          ctx.navigate?.('/patient/chooseDoctor')
+        } else {
+          ctx.setBackDropStatus?.(false);
+          ctx.openSnackBar?.("Error: something went wrong...", "error")
+        }
+      } catch(err) {
+        ctx.openSnackBar?.(`Error: ${err}`, "error")
     }
     ctx.setBackDropStatus?.(false);
   };
